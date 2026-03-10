@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ColdFast Logistics - Home</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* รีเซ็ตค่าเริ่มต้น */
+        * {
+            font-family: 'Kanit', sans-serif;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* แถบเมนูแนวนอน (Navbar) */
+        nav {
+            background-color: white;
+            color: #1a365d;
+            padding: 0 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px; 
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo img {
+            height: 55px; 
+            width: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            color: #4a5568;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #1a365d;
+        }
+
+        /* ส่วน Banner (Hero Section) */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+        }
+
+        .hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.65);
+        }
+
+        .hero-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            width: 80%;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+        }
+
+        .hero-text p {
+            font-size: 1.4rem;
+            font-weight: 300;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+        }
+
+        /* ส่วนเนื้อหา Services */
+        .services-section {
+            padding: 80px 10%;
+            background-color: white;
+            text-align: center;
+        }
+
+        .services-title {
+            font-size: 2.2rem;
+            color: #1a365d;
+            margin-bottom: 60px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .services-title::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background-color: #1a365d;
+        }
+
+        /* Grid Layout สำหรับบริการหลัก */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin-top: 20px;
+        }
+
+        .service-card {
+            padding: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .service-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            color: #1a365d;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .service-card p {
+            color: #718096;
+            line-height: 1.6;
+            font-size: 1rem;
+            font-weight: 300;
+        }
+
+        /* ส่วนท้าย (Footer) */
+        footer {
+            text-align: center;
+            padding: 40px;
+            background-color: #f7fafc;
+            color: #718096;
+            font-size: 0.9rem;
+            border-top: 1px solid #edf2f7;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">
+            <img src="Truck.png" alt="ColdFast Logo">
+        </div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="pos.html">ระบบส่งของ</a></li>
+            <li><a href="track.html">ติดตามพัสดุ</a></li>
+            <li><a href="pdca.html">กระบวนการ PDCA</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <img src="semi-truck-port-sunset.jpg" alt="Cold Storage Truck">
+            <div class="hero-text">
+                <h1>Cold Logistics</h1>
+                <p>บริษัทขนส่งวัตถุดิบแบบเย็น</p>
+            </div>
+        </section>
+
+       <section class="services-section">
+            <h2 class="services-title">บริการหลัก</h2>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <span class="service-icon">🚚</span>
+                    <h3>การขนส่งควบคุมอุณหภูมิ</h3>
+                    <p>บริการรับ-ส่งวัตถุดิบด้วยรถที่ติดตั้งระบบทำความเย็นมาตรฐานสูง รักษาความสดใหม่ของสินค้าตั้งแตต้นทางจนถึงมือผู้รับ</p>
+                </div>
+
+                <div class="service-card">
+                    <span class="service-icon">📦</span>
+                    <h3>ระบบติดตามสถานะสินค้า</h3>
+                    <p>ตรวจสอบสถานะการจัดส่งได้ง่ายๆ ผ่านหมายเลขพัสดุในระบบ ช่วยให้คุณทราบตำแหน่งและเวลาถึงปลายทางอย่างแม่นยำ</p>
+                </div>
+
+                <div class="service-card">
+                    <span class="service-icon">🏘️</span>
+                    <h3>ขยายเครือข่ายครอบคลุมทั่วไทย</h3>
+                    <p>เพิ่มขีดความสามารถการจัดส่งวัตถุดิบแบบเย็นให้ครอบคลุมทุกภูมิภาคในไทย พร้อมยกระดับโลจิสติกส์ท้องถิ่นสู่มาตรฐานสากล</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        &copy; 2026 ColdFast Logistics - Prototype Project
+    </footer>
+
+</body>
+</html>

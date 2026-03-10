@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ส่งของ - ColdFast Logistics</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #f0f2f5; --surface: #ffffff; --sidebar-bg: #1a2332; --sidebar-active: #243447;
+            --sidebar-text: #8fa3bc; --sidebar-text-active: #e8edf3; --accent: #2563a8;
+            --text-primary: #1c2b3a; --text-secondary: #556677; --text-muted: #8fa3bc; --border: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06); --radius-lg: 14px;
+        }
+        body { font-family: 'IBM Plex Sans Thai', sans-serif; background: var(--bg); color: var(--text-primary); display: flex; min-height: 100vh; font-size: 14px; }
+        h2 { font-size: 24px; font-weight: 600; margin-bottom: 20px; }
+        
+        /* ========================================= */
+        /* SIDEBAR (ล็อก CSS ให้เหมือนกันเป๊ะทุกหน้า) */
+        /* ========================================= */
+        .sidebar { width: 240px; min-height: 100vh; background: var(--sidebar-bg); display: flex; flex-direction: column; position: fixed; top: 0; left: 0; z-index: 100; border-right: 1px solid #111827; }
+        .sidebar-logo { padding: 24px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 12px; }
+        .logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, #2563a8, #4a8fd4); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+        .logo-text { font-size: 16px; font-weight: 600; color: #ffffff; text-transform: uppercase; line-height: 1.2; letter-spacing: 0.5px; }
+        .logo-sub { font-size: 11px; color: var(--sidebar-text); letter-spacing: 0.5px; }
+        .nav-section { padding: 24px 0; flex: 1; display: flex; flex-direction: column; gap: 4px; }
+        .nav-label { font-size: 11px; font-weight: 600; letter-spacing: 0.05em; color: #4a6680; padding: 0 24px 8px; text-transform: uppercase; }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 24px; color: var(--sidebar-text); text-decoration: none; transition: 0.2s; border-left: 3px solid transparent; font-size: 14px; font-weight: 500; }
+        .nav-item:hover { color: var(--sidebar-text-active); background: rgba(255,255,255,0.04); }
+        .nav-item.active { color: var(--sidebar-text-active); background: var(--sidebar-active); border-left-color: #4a8fd4; }
+        .nav-icon { font-size: 18px; width: 24px; text-align: center; }
+        .sidebar-footer { padding: 16px 24px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .back-btn { display: flex; align-items: center; gap: 12px; color: var(--sidebar-text); font-size: 14px; text-decoration: none; transition: 0.2s; font-weight: 500; }
+        .back-btn:hover { color: var(--sidebar-text-active); }
+        /* ========================================= */
+
+        /* MAIN & TOPBAR */
+        .main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; }
+        .topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; height: 60px; display: flex; align-items: center; position: sticky; top: 0; box-shadow: var(--shadow-sm); z-index: 50; }
+        .topbar-title { font-size: 16px; font-weight: 600; }
+        
+        .content { padding: 30px 32px; }
+        .pos-layout { display: grid; grid-template-columns: 1.5fr 1fr; gap: 24px; align-items: start; }
+        
+        .card { background: var(--surface); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-sm); border: 1px solid var(--border); }
+        .input-group { margin-bottom: 16px; }
+        label { display: block; font-size: 13px; font-weight: 500; color: var(--text-secondary); margin-bottom: 6px; }
+        select, input, textarea { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; font-family: 'IBM Plex Sans Thai'; outline: none; }
+        select:focus, input:focus, textarea:focus { border-color: var(--accent); }
+        .row { display: flex; gap: 16px; }
+        
+        .promo-wrap { display: flex; gap: 16px; margin-top: 12px; }
+        .promo-option { display: flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer; color: var(--text-secondary); font-weight: 400; }
+        .promo-option input { margin: 0; cursor: pointer; width: auto;}
+
+        .summary-card { background: var(--surface); border: 2px solid var(--accent); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-sm); }
+        .summary-item { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; color: var(--text-secondary); }
+        .discount-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; color: #dc2626; font-weight: 500; }
+        .total-row { margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--border); display: flex; justify-content: space-between; font-size: 20px; font-weight: 600; color: var(--accent); }
+        
+        .btn-group { grid-column: span 2; display: flex; justify-content: flex-end; gap: 12px; margin-top: 10px; }
+        .btn { padding: 12px 32px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; border: none; transition: 0.2s; font-family: 'IBM Plex Sans Thai'; }
+        .btn-cancel { background: #fee2e2; color: #9b1c1c; }
+        .btn-submit { background: var(--accent); color: white; }
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-icon">❄️</div>
+            <div>
+                <div class="logo-text">ColdFast</div>
+                <div class="logo-sub">Logistics</div>
+            </div>
+        </div>
+        <nav class="nav-section">
+            <div class="nav-label">เมนูหลัก</div>
+            <a class="nav-item active" href="pos.html"><span class="nav-icon">📦</span> ส่งของ</a>
+            <a class="nav-item" href="orders.html"><span class="nav-icon">📋</span> คำสั่งขนส่งทั้งหมด</a>
+            <a class="nav-item" href="dashboard.html"><span class="nav-icon">📊</span> แดชบอร์ดสรุปผล</a>
+        </nav>
+        <div class="sidebar-footer">
+            <a class="back-btn" href="index.html"><span class="nav-icon">⬅️</span> กลับหน้าแรก</a>
+        </div>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <div class="topbar-title">ระบบจัดการขนส่งวัตถุดิบแบบเย็น</div>
+        </header>
+
+        <div class="content">
+            <h2>สร้างออเดอร์ขนส่ง</h2>
+            
+            <div class="pos-layout">
+                <div class="card">
+                    <div class="input-group">
+                        <label>ผู้จัดหาวัตถุดิบ (Supplier)</label>
+                        <select id="supplier">
+                            <option value="บริษัทจัดหาวัตถุดิบ">บริษัทจัดหาวัตถุดิบ</option>
+                            <option value="บริษัท A">บริษัท A</option>
+                            <option value="บริษัท B">บริษัท B</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>ลูกค้าปลายทาง</label>
+                        <input type="text" id="customerName" placeholder="ระบุชื่อลูกค้า...">
+                        <div class="promo-wrap">
+                            <label class="promo-option"><input type="radio" name="promo" value="firstTime" onchange="calculatePrice()"> โปรลูกค้าใหม่ (-15%)</label>
+                            <label class="promo-option"><input type="radio" name="promo" value="partner" onchange="calculatePrice()"> โปรพันธมิตร (-10%)</label>
+                            <label class="promo-option"><input type="radio" name="promo" value="none" checked onchange="calculatePrice()"> ไม่มีโปร</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-group" style="flex: 2;">
+                            <label>ประเภทสินค้า</label>
+                            <input type="text" id="productType" placeholder="เช่น ไอศกรีม">
+                        </div>
+                        <div class="input-group" style="flex: 1;">
+                            <label>น้ำหนัก (กก.)</label>
+                            <input type="number" id="weight" value="1" min="1" oninput="calculatePrice()">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-group" style="flex: 1;">
+                            <label>อุณหภูมิขนส่ง</label>
+                            <select id="tempType" onchange="calculatePrice()">
+                                <option value="40">แช่เย็น (+40฿)</option>
+                                <option value="70">แช่แข็ง (+70฿)</option>
+                            </select>
+                        </div>
+                        <div class="input-group" style="flex: 1;">
+                            <label>ระยะทาง</label>
+                            <select id="distance"><option>0-50 กม.</option><option>51-100 กม.</option></select>
+                        </div>
+                    </div>
+                    <div class="input-group" style="margin-bottom: 0;">
+                        <label>ที่อยู่การจัดส่ง</label>
+                        <textarea id="address" rows="3" placeholder="ระบุที่อยู่จัดส่ง..."></textarea>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <div class="summary-card">
+                        <div style="font-weight: 600; margin-bottom: 16px; color: var(--text-primary);">สรุปค่าบริการ</div>
+                        <div class="summary-item"><span>ค่าบริการพื้นฐาน</span><span>300 ฿</span></div>
+                        <div class="summary-item"><span>ค่าน้ำหนักส่วนเกิน</span><span id="weightExtra">0 ฿</span></div>
+                        <div class="summary-item"><span>ค่าอุณหภูมิ</span><span id="tempCharge">40 ฿</span></div>
+                        <div class="discount-row" id="discountRow" style="display: none;">
+                            <span>ส่วนลดโปรโมชั่น</span><span id="discountPrice">-0 ฿</span>
+                        </div>
+                        <div class="total-row"><span>รวมสุทธิ</span><span id="totalPrice">340 ฿</span></div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="input-group">
+                            <label>วันที่รับสินค้า</label>
+                            <input type="date" id="pickupDate">
+                        </div>
+                        <div class="input-group" style="margin-bottom: 0;">
+                            <label>วันที่ส่งโดยประมาณ</label>
+                            <input type="date" id="deliveryDate">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-cancel" onclick="location.reload()">ยกเลิก</button>
+                    <button class="btn btn-submit" onclick="saveAndGenerateBill()">บันทึกและออกใบส่งของ</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function calculatePrice() {
+            const weight = parseFloat(document.getElementById('weight').value) || 0;
+            const tempCost = parseInt(document.getElementById('tempType').value);
+            const promo = document.querySelector('input[name="promo"]:checked').value;
+
+            let base = 300;
+            let wExtra = weight > 1 ? (weight - 1) * 80 : 0;
+            let subTotal = base + wExtra + tempCost;
+            
+            let discount = 0;
+            if (promo === 'firstTime' && subTotal >= 500) { discount = subTotal * 0.15; }
+            else if (promo === 'partner') { discount = subTotal * 0.10; }
+            
+            let finalDiscount = Math.round(discount);
+            let finalTotal = Math.round(subTotal - finalDiscount);
+
+            document.getElementById('weightExtra').innerText = wExtra + " ฿";
+            document.getElementById('tempCharge').innerText = tempCost + " ฿";
+            
+            if (finalDiscount > 0) {
+                document.getElementById('discountRow').style.display = 'flex';
+                document.getElementById('discountPrice').innerText = "-" + finalDiscount + " ฿";
+            } else {
+                document.getElementById('discountRow').style.display = 'none';
+            }
+            document.getElementById('totalPrice').innerText = finalTotal.toLocaleString() + " ฿";
+        }
+
+        function saveAndGenerateBill() {
+            const customer = document.getElementById('customerName').value;
+            const address = document.getElementById('address').value;
+            if (!customer || !address) { alert("กรุณากรอกชื่อลูกค้าและที่อยู่ให้ครบถ้วน"); return; }
+
+            let orders = JSON.parse(localStorage.getItem('allOrders')) || [];
+            const newOrder = {
+                id: "OD" + (orders.length + 1).toString().padStart(3, '0'),
+                supplier: document.getElementById('supplier').value,
+                customer: customer,
+                product: document.getElementById('productType').value || "ไม่ระบุ",
+                weight: document.getElementById('weight').value,
+                temp: document.getElementById('tempType').options[document.getElementById('tempType').selectedIndex].text,
+                total: document.getElementById('totalPrice').innerText,
+                distance: document.getElementById('distance').value,
+                address: address, 
+                status: 'Pending', 
+                date: new Date().toLocaleDateString('th-TH'),
+                pickup: document.getElementById('pickupDate').value || '-',
+                delivery: document.getElementById('deliveryDate').value || '-'
+            };
+
+            orders.push(newOrder);
+            localStorage.setItem('allOrders', JSON.stringify(orders));
+            sessionStorage.setItem('currentOrder', JSON.stringify(newOrder));
+            window.location.href = 'invoice.html';
+        }
+        window.onload = calculatePrice;
+    </script>
+</body>
+</html>

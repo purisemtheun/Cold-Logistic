@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายละเอียดคำสั่ง - ColdFast</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #f0f2f5; --surface: #ffffff; --sidebar-bg: #1a2332; --sidebar-active: #243447;
+            --sidebar-text: #8fa3bc; --sidebar-text-active: #e8edf3; --accent: #2563a8;
+            --text-primary: #1c2b3a; --text-muted: #8fa3bc; --border: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06); --radius-lg: 14px;
+        }
+        body { font-family: 'IBM Plex Sans Thai', sans-serif; background: var(--bg); color: var(--text-primary); display: flex; min-height: 100vh; font-size: 14px; overflow: hidden;}
+        
+        /* --- SIDEBAR (ล็อกขนาด 100%) --- */
+        .sidebar { width: 240px; min-height: 100vh; background: var(--sidebar-bg); display: flex; flex-direction: column; position: fixed; top: 0; left: 0; z-index: 100; }
+        .sidebar-logo { padding: 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; gap: 10px; }
+        .logo-icon { width: 34px; height: 34px; background: linear-gradient(135deg, #2563a8, #4a8fd4); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+        .logo-text { font-size: 15px; font-weight: 600; color: #c8d8ea; text-transform: uppercase; line-height: 1.2; letter-spacing: 0.5px; }
+        .logo-sub { font-size: 11px; color: var(--sidebar-text); letter-spacing: 0.5px; }
+        .nav-section { padding: 24px 0; flex: 1; }
+        .nav-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; color: #4a6680; padding: 0 24px 12px; text-transform: uppercase; }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 24px; color: var(--sidebar-text); text-decoration: none; transition: 0.2s; border-left: 3px solid transparent; font-size: 14px; font-weight: 400; line-height: 1.5; }
+        .nav-item:hover { color: var(--sidebar-text-active); background: rgba(255,255,255,0.04); }
+        .nav-icon { font-size: 16px; width: 20px; text-align: center; }
+        .sidebar-footer { padding: 16px 24px; border-top: 1px solid rgba(255,255,255,0.06); }
+        .back-btn { display: flex; align-items: center; gap: 10px; color: var(--sidebar-text); font-size: 14px; text-decoration: none; transition: 0.2s; font-weight: 400; }
+        .back-btn:hover { color: var(--sidebar-text-active); }
+
+        /* --- MAIN --- */
+        .main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; height: 100vh; overflow-y: auto;}
+        .topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; height: 60px; display: flex; align-items: center; position: sticky; top: 0; box-shadow: var(--shadow-sm); z-index: 50; }
+        .topbar-title { font-size: 16px; font-weight: 600; }
+        
+        .content { padding: 30px; display: flex; justify-content: center; }
+        
+        .invoice-card { background: var(--surface); width: 500px; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); border: 1px solid var(--border); overflow: hidden; margin-bottom: 30px; }
+        .status-banner { background: #4ade80; color: #14532d; text-align: center; padding: 16px; font-size: 18px; font-weight: 600; }
+        .inv-body { padding: 30px; }
+        
+        .order-id { text-align: center; margin-bottom: 24px; }
+        .order-id span { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+        .order-id b { font-size: 24px; font-family: 'IBM Plex Mono', monospace; color: var(--accent); }
+
+        .info-box { background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 20px; }
+        .info-box.highlight { background: #eff6ff; border-color: #bfdbfe; text-align: center; color: var(--accent); font-weight: 500; font-size: 16px;}
+        
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+        .box-mini { border: 1px solid var(--border); padding: 12px; border-radius: 8px; }
+        .box-mini label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+        .box-mini div { font-weight: 500; }
+
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px; }
+        td { padding: 10px 0; border-bottom: 1px dashed var(--border); }
+        tr:last-child td { border-bottom: none; }
+        td:last-child { text-align: right; font-weight: 500; }
+
+        .total-area { display: flex; justify-content: space-between; align-items: center; border-top: 2px solid var(--text-primary); padding-top: 16px; margin-top: 10px; font-size: 20px; font-weight: 700; color: var(--text-primary); }
+
+        .qr-area { text-align: center; margin-top: 30px; }
+        .qr-area p { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
+        .qr-img { width: 120px; height: 120px; border: 1px solid var(--border); border-radius: 8px; padding: 5px; cursor: zoom-in; transition: 0.2s;}
+        .qr-img:hover { transform: scale(1.05); }
+
+        .btn-group { display: flex; gap: 12px; margin-top: 30px; }
+        .btn { flex: 1; padding: 12px; border-radius: 8px; font-family: 'IBM Plex Sans Thai'; font-weight: 600; cursor: pointer; border: none; font-size: 14px; transition: 0.2s;}
+        .btn-print { background: #f1f5f9; color: var(--text-primary); border: 1px solid var(--border); }
+        .btn-back { background: var(--accent); color: white; }
+
+        .modal { display: none; position: fixed; z-index: 1000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; cursor: zoom-out; }
+        .modal img { width: 300px; max-width: 90%; background: white; padding: 10px; border-radius: 12px; }
+
+        @media print {
+            .sidebar, .topbar, .btn-group { display: none !important; }
+            .main { margin: 0; padding: 0; overflow: visible; }
+            .invoice-card { border: none; box-shadow: none; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-icon">❄️</div>
+            <div>
+                <div class="logo-text">ColdFast</div>
+                <div class="logo-sub">Logistics</div>
+            </div>
+        </div>
+        <nav class="nav-section">
+            <div class="nav-label">เมนูหลัก</div>
+            <a class="nav-item" href="pos.html"><span class="nav-icon">📦</span> ส่งของ</a>
+            <a class="nav-item active" href="orders.html"><span class="nav-icon">📋</span> คำสั่งขนส่งทั้งหมด</a>
+            <a class="nav-item" href="dashboard.html"><span class="nav-icon">📊</span> แดชบอร์ดสรุปผล</a>
+        </nav>
+        <div class="sidebar-footer">
+            <a class="back-btn" href="index.html"><span class="nav-icon">⬅️</span> กลับหน้าแรก</a>
+        </div>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <div class="topbar-title">ระบบจัดการขนส่งวัตถุดิบแบบเย็น</div>
+        </header>
+        
+        <div class="content">
+            <div class="invoice-card">
+                <div class="status-banner">สร้างคำสั่งขนส่งสำเร็จ!</div>
+                <div class="inv-body">
+                    <div class="order-id">
+                        <span>หมายเลขคำสั่งขนส่ง</span>
+                        <b id="d-id">OD000</b>
+                    </div>
+
+                    <div class="info-box highlight" id="d-temp">รถแช่เย็น (0 ถึง 4 °C)</div>
+
+                    <div class="grid-2">
+                        <div class="box-mini"><label>ผู้จัดหาวัตถุดิบ</label><div id="d-sup">-</div></div>
+                        <div class="box-mini"><label>ลูกค้า</label><div id="d-cus">-</div></div>
+                    </div>
+
+                    <table>
+                        <tr><td>ประเภทสินค้า</td><td id="d-prod">-</td></tr>
+                        <tr><td>น้ำหนัก</td><td><span id="d-weight">0</span> กก.</td></tr>
+                        <tr><td>ระยะทาง</td><td id="d-dist">-</td></tr>
+                    </table>
+
+                    <div class="grid-2">
+                        <div class="box-mini"><label>วันที่เข้ารับสินค้า</label><div id="d-pick">-</div></div>
+                        <div class="box-mini"><label>วันที่ส่งถึงปลายทาง</label><div id="d-del">-</div></div>
+                    </div>
+
+                    <div class="total-area">
+                        <span>ยอดรวมสุทธิ</span>
+                        <span id="d-total">0 ฿</span>
+                    </div>
+
+                    <div class="qr-area">
+                        <p>สแกน QR Code เพื่อชำระเงิน หรือติดตามสถานะ</p>
+                        <img src="Qrcode.jpg" class="qr-img" id="qrSmall" onerror="this.style.display='none'">
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn btn-print" onclick="window.print()">🖨️ พิมพ์ใบเสร็จ</button>
+                        <button class="btn btn-back" onclick="location.href='orders.html'">กลับหน้ารวม</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal" id="qrModal" onclick="this.style.display='none'">
+        <img src="Qrcode.jpg" onerror="this.style.display='none'">
+    </div>
+
+    <script>
+        document.getElementById('qrSmall').onclick = function() {
+            document.getElementById('qrModal').style.display = 'flex';
+        }
+
+        const raw = sessionStorage.getItem('currentOrder');
+        if(raw) {
+            const data = JSON.parse(raw);
+            document.getElementById('d-id').innerText = data.id;
+            document.getElementById('d-temp').innerText = "ขนส่ง" + data.temp;
+            document.getElementById('d-sup').innerText = data.supplier;
+            document.getElementById('d-cus').innerText = data.customer;
+            document.getElementById('d-prod').innerText = data.product;
+            document.getElementById('d-weight').innerText = data.weight;
+            document.getElementById('d-dist').innerText = data.distance;
+            document.getElementById('d-pick').innerText = data.pickup || '-';
+            document.getElementById('d-del').innerText = data.delivery || '-';
+            document.getElementById('d-total').innerText = data.total;
+        }
+    </script>
+</body>
+</html>

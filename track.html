@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ติดตามพัสดุ - ColdFast Logistics</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- รีเซ็ตค่าเริ่มต้น (ตามหน้า Home) --- */
+        * {
+            font-family: 'Kanit', sans-serif;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #ffffff;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- แถบเมนูแนวนอน (Navbar) --- */
+        nav {
+            background-color: white;
+            color: #1a365d;
+            padding: 0 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo img {
+            height: 55px;
+            width: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            color: #4a5568;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            color: #1a365d;
+        }
+
+        /* --- ส่วนเนื้อหาการติดตามพัสดุ พร้อมพื้นหลัง warehouse.jpg --- */
+        .track-section {
+            padding: 100px 5%; /* เพิ่ม Padding บนล่างให้ดูโปร่ง */
+            flex: 1; /* ดัน Footer ให้อยู่ล่างสุดเสมอ */
+            display: flex;
+            justify-content: center;
+            align-items: center; /* จัดให้อยู่กึ่งกลางหน้าจอ */
+            
+            /* ใส่รูป warehouse.jpg เป็นพื้นหลังด้านหลังสุด */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('warehouse.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed; /* ทำเอฟเฟกต์พื้นหลังนิ่งเมื่อสกิล (Optional) */
+        }
+
+        .track-card {
+            background-color: rgba(255, 255, 255, 0.95); /* ขาวโปร่งแสงเล็กน้อยเพื่อให้เห็นพื้นหลัง */
+            width: 100%;
+            max-width: 650px;
+            padding: 50px 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* เพิ่มเงาให้ดูมีมิติ */
+            border: 1px solid #edf2f7;
+            text-align: center;
+        }
+
+        .track-title {
+            font-size: 2.2rem;
+            color: #1a365d;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .track-subtitle {
+            color: #4a5568;
+            font-size: 1rem;
+            margin-bottom: 35px;
+        }
+
+        /* ช่องค้นหา */
+        .search-box {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px; /* ลด margin-bottom ลงเพราะลบ placeholder ออกแล้ว */
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            outline: none;
+            color: #2d3748;
+            transition: 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: #2b78d2;
+        }
+
+        .search-btn {
+            background-color: #1a365d;
+            color: white;
+            border: none;
+            padding: 0 35px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .search-btn:hover {
+            background-color: #2b78d2;
+        }
+
+        /* ลบ CSS .image-placeholder ที่ไม่จำเป็นออกแล้ว */
+
+        /* --- ส่วนท้าย (Footer) --- */
+        footer {
+            text-align: center;
+            padding: 40px;
+            background-color: #f7fafc;
+            color: #718096;
+            font-size: 0.9rem;
+            border-top: 1px solid #edf2f7;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">
+            <img src="Truck.png" alt="ColdFast Logo">
+        </div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="pos.html">ระบบส่งของ</a></li>
+            <li><a href="track.html" class="active">ติดตามพัสดุ</a></li>
+            <li><a href="pdca.html">กระบวนการ PDCA</a></li>
+        </ul>
+    </nav>
+
+    <main class="track-section">
+        <div class="track-card">
+            <h2 class="track-title">ติดตามสถานะพัสดุ</h2>
+            <p class="track-subtitle">กรุณากรอกหมายเลขคำสั่งขนส่ง (เช่น OD001) เพื่อตรวจสอบสถานะ</p>
+            
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="กรอกหมายเลขพัสดุ..." id="trackingId">
+                <button class="search-btn" onclick="searchParcel()">ค้นหา</button>
+            </div>
+
+            </div>
+    </main>
+
+    <footer>
+        &copy; 2026 ColdFast Logistics - Prototype Project
+    </footer>
+
+    <script>
+        function searchParcel() {
+            const id = document.getElementById('trackingId').value;
+            if(id) {
+                // สำหรับเขียนโค้ดเชื่อมข้อมูลในอนาคต
+                alert("กำลังค้นหาข้อมูลของพัสดุหมายเลข: " + id);
+            } else {
+                alert("กรุณากรอกหมายเลขพัสดุก่อนค้นหา");
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แดชบอร์ด - ColdFast Logistics</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #f0f2f5; --surface: #ffffff; --surface-2: #f7f8fa; --sidebar-bg: #1a2332; --sidebar-active: #243447;
+            --sidebar-text: #8fa3bc; --sidebar-text-active: #e8edf3; --accent: #2563a8; --accent-light: #dbeafe;
+            --frost: #e8f4fd; --green: #1a7a4a; --green-light: #d1fae5; --amber: #b45309; --amber-light: #fef3c7;
+            --red: #9b1c1c; --red-light: #fee2e2; --text-primary: #1c2b3a; --text-secondary: #556677;
+            --text-muted: #8fa3bc; --border: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06); --shadow-md: 0 4px 12px rgba(0,0,0,0.07); --radius-lg: 14px;
+        }
+        body { font-family: 'IBM Plex Sans Thai', sans-serif; background: var(--bg); color: var(--text-primary); display: flex; min-height: 100vh; font-size: 14px; }
+        
+        /* ========================================= */
+        /* SIDEBAR (ล็อก CSS ให้เหมือนกันเป๊ะทุกหน้า) */
+        /* ========================================= */
+        .sidebar { width: 240px; min-height: 100vh; background: var(--sidebar-bg); display: flex; flex-direction: column; position: fixed; top: 0; left: 0; z-index: 100; border-right: 1px solid #111827; }
+        .sidebar-logo { padding: 24px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 12px; }
+        .logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, #2563a8, #4a8fd4); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+        .logo-text { font-size: 16px; font-weight: 600; color: #ffffff; text-transform: uppercase; line-height: 1.2; letter-spacing: 0.5px; }
+        .logo-sub { font-size: 11px; color: var(--sidebar-text); letter-spacing: 0.5px; }
+        .nav-section { padding: 24px 0; flex: 1; display: flex; flex-direction: column; gap: 4px; }
+        .nav-label { font-size: 11px; font-weight: 600; letter-spacing: 0.05em; color: #4a6680; padding: 0 24px 8px; text-transform: uppercase; }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 24px; color: var(--sidebar-text); text-decoration: none; transition: 0.2s; border-left: 3px solid transparent; font-size: 14px; font-weight: 500; }
+        .nav-item:hover { color: var(--sidebar-text-active); background: rgba(255,255,255,0.04); }
+        .nav-item.active { color: var(--sidebar-text-active); background: var(--sidebar-active); border-left-color: #4a8fd4; }
+        .nav-icon { font-size: 18px; width: 24px; text-align: center; }
+        .sidebar-footer { padding: 16px 24px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .back-btn { display: flex; align-items: center; gap: 12px; color: var(--sidebar-text); font-size: 14px; text-decoration: none; transition: 0.2s; font-weight: 500; }
+        .back-btn:hover { color: var(--sidebar-text-active); }
+        /* ========================================= */
+
+        /* MAIN */
+        .main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
+        .topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; box-shadow: var(--shadow-sm); }
+        .topbar-title { font-size: 16px; font-weight: 600; }
+        .topbar-sub { font-size: 12px; color: var(--text-muted); font-family: 'IBM Plex Mono', monospace; }
+        .status-pill { display: flex; align-items: center; gap: 6px; background: var(--green-light); color: var(--green); font-size: 12px; font-weight: 500; padding: 5px 12px; border-radius: 20px; }
+        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        .content { padding: 28px 32px 40px; flex: 1; }
+        .page-header { margin-bottom: 24px; display: flex; align-items: flex-end; justify-content: space-between; }
+        .page-title { font-size: 24px; font-weight: 600; line-height: 1.2; }
+        .page-title span { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace; }
+
+        /* KPI CARDS */
+        .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+        .kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-sm); position: relative; }
+        .kpi-top { display: flex; justify-content: space-between; margin-bottom: 14px; }
+        .kpi-label { font-size: 12px; color: var(--text-muted); font-weight: 500; text-transform: uppercase; }
+        .kpi-icon-wrap { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+        .kpi-value { font-size: 32px; font-weight: 600; font-family: 'IBM Plex Mono', monospace; margin-bottom: 5px; }
+        .kpi-footer { font-size: 12px; color: var(--text-muted); }
+        .kpi-trend { font-weight: 600; padding: 2px 6px; border-radius: 4px; margin-right: 5px; }
+
+        .card-blue .kpi-value { color: var(--accent); } .card-blue .kpi-icon-wrap { background: var(--accent-light); color: var(--accent); }
+        .card-slate .kpi-value { color: var(--text-primary); } .card-slate .kpi-icon-wrap { background: var(--surface-2); color: var(--text-secondary); border: 1px solid var(--border); }
+        .card-green .kpi-value { color: var(--green); } .card-green .kpi-icon-wrap { background: var(--green-light); color: var(--green); }
+        .card-amber .kpi-value { color: var(--amber); } .card-amber .kpi-icon-wrap { background: var(--amber-light); color: var(--amber); }
+        .kpi-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 4px; border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
+        .card-blue::after { background: linear-gradient(90deg, #2563a8, #4a8fd4); }
+        .card-slate::after { background: linear-gradient(90deg, #64748b, #94a3b8); }
+        .card-green::after { background: linear-gradient(90deg, #1a7a4a, #34d399); }
+        .card-amber::after { background: linear-gradient(90deg, #b45309, #f59e0b); }
+
+        /* BOTTOM GRID */
+        .bottom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); }
+        .panel-header { padding: 18px 22px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+        .panel-title { font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+        .panel-title-icon { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; background: var(--frost); }
+        .panel-body { padding: 20px 22px; }
+
+        .status-list { display: flex; flex-direction: column; gap: 14px; }
+        .status-row { display: flex; align-items: center; gap: 12px; }
+        .status-label { font-size: 13px; color: var(--text-secondary); width: 110px; flex-shrink: 0; }
+        .status-bar-wrap { flex: 1; height: 8px; background: var(--surface-2); border-radius: 99px; overflow: hidden; }
+        .status-bar { height: 100%; border-radius: 99px; transition: width 0.8s ease; }
+        .bar-green { background: linear-gradient(90deg, #1a7a4a, #34d399); }
+        .bar-blue { background: linear-gradient(90deg, #2563a8, #4a8fd4); }
+        .bar-amber { background: linear-gradient(90deg, #b45309, #f59e0b); }
+        .bar-slate { background: linear-gradient(90deg, #64748b, #94a3b8); }
+        .status-count { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; width: 30px; text-align: right; }
+        .status-pct { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--text-muted); width: 36px; text-align: right; }
+
+        .product-row { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); gap: 12px; }
+        .product-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .product-rank { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--text-muted); font-weight: 600; width: 20px; }
+        .product-name { flex: 1; font-size: 14px; font-weight: 500; color: var(--text-primary); }
+        .product-badge { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace; }
+        .badge-blue { background: var(--accent-light); color: var(--accent); }
+        .badge-green { background: var(--green-light); color: var(--green); }
+        .badge-amber { background: var(--amber-light); color: var(--amber); }
+        .badge-slate { background: var(--surface-2); color: var(--text-secondary); border: 1px solid var(--border); }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-icon">❄️</div>
+            <div>
+                <div class="logo-text">ColdFast</div>
+                <div class="logo-sub">Logistics</div>
+            </div>
+        </div>
+        <nav class="nav-section">
+            <div class="nav-label">เมนูหลัก</div>
+            <a class="nav-item" href="pos.html"><span class="nav-icon">📦</span> ส่งของ</a>
+            <a class="nav-item" href="orders.html"><span class="nav-icon">📋</span> คำสั่งขนส่งทั้งหมด</a>
+            <a class="nav-item active" href="dashboard.html"><span class="nav-icon">📊</span> แดชบอร์ดสรุปผล</a>
+        </nav>
+        <div class="sidebar-footer">
+            <a class="back-btn" href="index.html"><span class="nav-icon">⬅️</span> กลับหน้าแรก</a>
+        </div>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <div class="topbar-left">
+                <div class="topbar-title">แดชบอร์ดสรุปภาพรวมธุรกิจ</div>
+                <div class="topbar-sub" id="topbar-date">อัปเดตล่าสุด: กำลังโหลด...</div>
+            </div>
+            <div class="topbar-right">
+                <div class="status-pill"><div class="status-dot"></div> ระบบปกติ</div>
+            </div>
+        </header>
+
+        <div class="content">
+            <div class="page-header">
+                <div class="page-title"><span>ภาพรวมธุรกิจ</span>สรุปผลการดำเนินงาน</div>
+            </div>
+
+            <div class="kpi-grid">
+                <div class="kpi-card card-blue">
+                    <div class="kpi-top"><div class="kpi-label">ออเดอร์ทั้งหมด</div><div class="kpi-icon-wrap">📦</div></div>
+                    <div class="kpi-value" id="kpi-orders">0</div>
+                    <div class="kpi-footer">รายการในระบบ</div>
+                </div>
+                <div class="kpi-card card-slate">
+                    <div class="kpi-top"><div class="kpi-label">รายได้รวม (บาท)</div><div class="kpi-icon-wrap">💰</div></div>
+                    <div class="kpi-value" id="kpi-revenue">0</div>
+                    <div class="kpi-footer">ยอดสุทธิทั้งหมด</div>
+                </div>
+                <div class="kpi-card card-green">
+                    <div class="kpi-top"><div class="kpi-label">ส่งมอบสำเร็จ</div><div class="kpi-icon-wrap">✅</div></div>
+                    <div class="kpi-value" id="kpi-completed">0</div>
+                    <div class="kpi-footer"><span class="kpi-trend trend-eq" style="background:var(--green-light); color:var(--green)" id="kpi-success-rate">0%</span><span>อัตราความสำเร็จ</span></div>
+                </div>
+                <div class="kpi-card card-amber">
+                    <div class="kpi-top"><div class="kpi-label">น้ำหนักรวม (กก.)</div><div class="kpi-icon-wrap">⚖️</div></div>
+                    <div class="kpi-value" id="kpi-weight">0</div>
+                    <div class="kpi-footer">กิโลกรัมโดยประมาณ</div>
+                </div>
+            </div>
+
+            <div class="bottom-grid">
+                <div class="panel">
+                    <div class="panel-header"><div class="panel-title"><div class="panel-title-icon">🚚</div>สถานะการขนส่ง</div></div>
+                    <div class="panel-body">
+                        <div class="status-list">
+                            <div class="status-row"><div class="status-label">ส่งมอบสำเร็จ</div><div class="status-bar-wrap"><div class="status-bar bar-green" id="bar-completed" style="width:0%"></div></div><div class="status-count" id="txt-completed">0</div><div class="status-pct" id="pct-completed">0%</div></div>
+                            <div class="status-row"><div class="status-label">กำลังขนส่ง</div><div class="status-bar-wrap"><div class="status-bar bar-blue" id="bar-transit" style="width:0%"></div></div><div class="status-count" id="txt-transit">0</div><div class="status-pct" id="pct-transit">0%</div></div>
+                            <div class="status-row"><div class="status-label">รอดำเนินการ</div><div class="status-bar-wrap"><div class="status-bar bar-amber" id="bar-pending" style="width:0%"></div></div><div class="status-count" id="txt-pending">0</div><div class="status-pct" id="pct-pending">0%</div></div>
+                            <div class="status-row"><div class="status-label">ยกเลิก</div><div class="status-bar-wrap"><div class="status-bar bar-slate" id="bar-cancel" style="width:0%"></div></div><div class="status-count" id="txt-cancel">0</div><div class="status-pct" id="pct-cancel">0%</div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-header"><div class="panel-title"><div class="panel-title-icon">🏆</div>สินค้าที่นิยมที่สุด</div></div>
+                    <div class="panel-body" style="padding-top:10px;">
+                        <div id="dynamic-products"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function renderDashboard() {
+            const now = new Date();
+            document.getElementById('topbar-date').innerText = `อัปเดตล่าสุด: ${now.toLocaleDateString('th-TH')} · ${now.toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'})}`;
+            const orders = JSON.parse(localStorage.getItem('allOrders')) || [];
+            let rev = 0, weight = 0, statusCount = { 'Pending': 0, 'In Transit': 0, 'Completed': 0, 'Cancelled': 0 }, prods = {};
+
+            orders.forEach(o => {
+                rev += parseInt(o.total.replace(/[^0-9]/g, '')) || 0;
+                weight += parseFloat(o.weight) || 0;
+                statusCount[o.status || 'Pending']++;
+                const p = o.product && o.product.trim() !== '' ? o.product : 'ไม่ระบุประเภท';
+                prods[p] = (prods[p] || 0) + 1;
+            });
+
+            const total = orders.length || 1;
+            document.getElementById('kpi-orders').innerText = orders.length;
+            document.getElementById('kpi-revenue').innerText = rev.toLocaleString();
+            document.getElementById('kpi-completed').innerText = statusCount['Completed'];
+            document.getElementById('kpi-weight').innerText = weight.toLocaleString();
+            document.getElementById('kpi-success-rate').innerText = Math.round((statusCount['Completed'] / total) * 100) + '%';
+
+            ['completed', 'transit', 'pending', 'cancel'].forEach(s => {
+                let map = { 'completed': 'Completed', 'transit': 'In Transit', 'pending': 'Pending', 'cancel': 'Cancelled' };
+                let val = statusCount[map[s]];
+                let pct = (val / total) * 100;
+                document.getElementById('bar-' + s).style.width = pct + '%';
+                document.getElementById('txt-' + s).innerText = val;
+                document.getElementById('pct-' + s).innerText = Math.round(pct) + '%';
+            });
+
+            const sortedProds = Object.entries(prods).sort((a,b) => b[1] - a[1]);
+            const colors = ['badge-blue', 'badge-green', 'badge-amber', 'badge-slate'];
+            let html = sortedProds.length === 0 ? '<div style="padding:20px; text-align:center; color:var(--text-muted);">ไม่มีข้อมูล</div>' : '';
+            
+            sortedProds.slice(0, 4).forEach((p, i) => {
+                html += `<div class="product-row"><div class="product-rank">${String(i + 1).padStart(2, '0')}</div><div class="product-name">${p[0]}</div><div class="product-badge ${colors[i % colors.length]}">${p[1]} ออเดอร์</div></div>`;
+            });
+            document.getElementById('dynamic-products').innerHTML = html;
+        }
+        window.onload = renderDashboard;
+    </script>
+</body>
+</html>
